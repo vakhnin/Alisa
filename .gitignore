@@ -206,3 +206,7 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 .idea/
+input_images/
+output_images_large/
+output_images_thumb/
+data.json
