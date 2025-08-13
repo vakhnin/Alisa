@@ -1,5 +1,7 @@
-from PIL import Image
 import os
+
+from PIL import Image
+
 
 def prepare_image(input_path, output_large_path, output_thumb_path,
                   large_max_size=(1200, 900), thumb_size=(200, 150)):
