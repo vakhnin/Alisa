@@ -21,7 +21,7 @@ def generate_data_json(large_dir, thumb_dir, output_json):
         with Image.open(large_path) as img:
             width, height = img.size
 
-        caption = get_caption_exiftool(large_path)
+        caption = "caption"
 
         data.append({
             "src": f"images_large/{filename}",
