@@ -3,6 +3,9 @@ import os
 # Входная папка с исходными картинками
 INPUT_DIR = "input_images"
 
+# Папка с шаблонами
+TEMPLATES_DIR = "templates"
+
 # Папка готового сайта
 OUTPUT_SITE_DIR = "site"
 
@@ -16,5 +19,5 @@ THUMB_SIZE = (200, 150)
 
 # Файлы
 OUTPUT_JSON = os.path.join(OUTPUT_SITE_DIR, "data.json")
-TEMPLATE_FILE = "templates/index.html"
+TEMPLATE_FILE = os.path.join(TEMPLATES_DIR, "index.html")
 OUTPUT_HTML = os.path.join(OUTPUT_SITE_DIR, "index.html")

@@ -2,12 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Моя галерея</title>
-    <style>
-        body { font-family: sans-serif; }
-        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-        .gallery img { width: 100%; height: auto; cursor: pointer; }
-    </style>
+    <title>Миры Алисы</title>
+    <link rel="stylesheet" href="css/gallery.css">
 </head>
 <body>
 
@@ -16,23 +12,6 @@
     {{GALLERY_ITEMS}}
 </div>
 
-<script>
-    // Простейший просмотр
-    document.querySelectorAll('.gallery img').forEach(img => {
-      img.addEventListener('click', () => {
-        const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.inset = 0;
-        overlay.style.background = 'rgba(0,0,0,0.8)';
-        overlay.style.display = 'flex';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.innerHTML = `<img src="${img.dataset.full}" style="max-width:90%; max-height:90%;">`;
-        overlay.addEventListener('click', () => overlay.remove());
-        document.body.appendChild(overlay);
-      });
-    });
-</script>
-
+<script src="js/gallery.js"></script>
 </body>
 </html>
