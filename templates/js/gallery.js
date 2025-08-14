@@ -1,42 +1,16 @@
 const images = document.querySelectorAll('.gallery img');
-let currentIndex = -1;
+const viewer = document.createElement('div');
+viewer.id = 'viewer';
+viewer.innerHTML = '<img><div class="caption"></div>';
+document.body.appendChild(viewer);
 
-function openOverlay(index) {
-    currentIndex = index;
-    const img = images[index];
-    const overlay = document.createElement('div');
-    overlay.className = 'overlay';
-    overlay.innerHTML = `
-        <img src="${img.dataset.full}" alt="">
-        <div class="caption">${img.dataset.desc || ''}</div>
-    `;
-    overlay.addEventListener('click', e => {
-        if (e.target === overlay) closeOverlay();
+const viewerImg = viewer.querySelector('img');
+const viewerCaption = viewer.querySelector('.caption');
+
+images.forEach((img) => {
+    img.addEventListener('click', () => {
+        viewerImg.src = img.dataset.full;
+        viewerCaption.textContent = img.dataset.desc || '';
+        viewer.scrollIntoView({ behavior: 'smooth' });
     });
-    document.body.appendChild(overlay);
-
-    document.addEventListener('keydown', keyHandler);
-}
-
-function closeOverlay() {
-    document.querySelector('.overlay')?.remove();
-    document.removeEventListener('keydown', keyHandler);
-}
-
-function keyHandler(e) {
-    if (e.key === 'Escape') closeOverlay();
-    else if (e.key === 'ArrowRight') navigate(1);
-    else if (e.key === 'ArrowLeft') navigate(-1);
-}
-
-function navigate(dir) {
-    let newIndex = currentIndex + dir;
-    if (newIndex < 0) newIndex = images.length - 1;
-    if (newIndex >= images.length) newIndex = 0;
-    closeOverlay();
-    openOverlay(newIndex);
-}
-
-images.forEach((img, idx) => {
-    img.addEventListener('click', () => openOverlay(idx));
 });

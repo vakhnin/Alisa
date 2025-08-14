@@ -62,3 +62,23 @@ h1 {
     text-align: center;
     max-width: 90%;
 }
+
+#viewer {
+    margin-top: 30px;
+    padding: 15px;
+    background: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#viewer img {
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+#viewer .caption {
+    margin-top: 10px;
+    color: #ccc;
+    font-size: 1rem;
+    text-align: center;
+}
