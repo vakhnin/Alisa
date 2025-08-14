@@ -7,9 +7,17 @@
 </head>
 <body>
 
-<h1>{{header}}</h1>
-<div class="gallery">
-    {{GALLERY_ITEMS}}
+<div class="container">
+    <h1>{{header}}</h1>
+    <div class="gallery">
+        {{GALLERY_ITEMS}}
+    </div>
+
+    <!-- Переместили внутрь контейнера -->
+    <div id="viewer">
+        <img>
+        <div class="caption"></div>
+    </div>
 </div>
 
 <script src="js/gallery.js"></script>
