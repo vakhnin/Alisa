@@ -1,28 +1,44 @@
 $(document).ready(function () {
-    const $images = $('.gallery img');
+    const $gallery = $('.gallery');
+    let allItems = $gallery.children().toArray();
     const $viewer = $('#viewer');
     const $viewerImg = $('#viewer img');
     const $viewerCaption = $('#viewer .caption');
+    const maxVisible = 7;
+
+    function getVisibleSet(centerIndex) {
+        const len = allItems.length;
+        const half = Math.floor(maxVisible / 2);
+        let visible = [];
+
+        for (let i = -half; i <= half; i++) {
+            visible.push(allItems[(centerIndex + i + len) % len]);
+        }
+        return visible;
+    }
+
+    function renderGallery(visibleItems) {
+        $gallery.empty().append(visibleItems);
+    }
 
     function openImage($img) {
-        // Снимаем выделение со всех миниатюр
-        $images.removeClass('active');
+        const index = allItems.indexOf($img.closest('.gallery-item')[0]);
+        const visibleSet = getVisibleSet(index);
 
-        // Выделяем текущую
+        $gallery.find('img').removeClass('active');
         $img.addClass('active');
 
-        // Задаём картинку и подпись
+        renderGallery(visibleSet);
         $viewerImg.attr('src', $img.data('full'));
         $viewerCaption.text($img.data('desc') || '');
     }
 
-    // Обработчик клика по миниатюрам
-    $images.on('click', function () {
+    $gallery.on('click', 'img', function () {
         openImage($(this));
     });
 
-    // Открываем первую картинку при загрузке
-    if ($images.length > 0) {
-        openImage($images.first());
+    // Открываем первую картинку
+    if (allItems.length > 0) {
+        openImage($(allItems[0]).find('img'));
     }
 });
