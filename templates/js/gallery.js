@@ -14,11 +14,6 @@ $(document).ready(function () {
         // Задаём картинку и подпись
         $viewerImg.attr('src', $img.data('full'));
         $viewerCaption.text($img.data('desc') || '');
-
-        // Плавный скролл к просмотровому блоку
-        $('html, body').animate({
-            scrollTop: $viewer.offset().top
-        }, 500);
     }
 
     // Обработчик клика по миниатюрам

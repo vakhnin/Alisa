@@ -65,7 +65,7 @@ h1 {
 }
 
 #viewer img {
-    width: 75%; /* уменьшаем на 25% */
+    width: 45%; /* уменьшаем на 25% */
     height: auto;
     border-radius: 8px;
     box-shadow: 0 0 25px rgba(0,0,0,0.8);
