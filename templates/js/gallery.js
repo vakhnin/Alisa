@@ -1,22 +1,33 @@
-const images = document.querySelectorAll('.gallery img');
-const viewer = document.querySelector('#viewer');
-const viewerImg = viewer.querySelector('img');
-const viewerCaption = viewer.querySelector('.caption');
+$(document).ready(function () {
+    const $images = $('.gallery img');
+    const $viewer = $('#viewer');
+    const $viewerImg = $('#viewer img');
+    const $viewerCaption = $('#viewer .caption');
 
-function openImage(img) {
-    images.forEach(i => i.classList.remove('active'));
-    img.classList.add('active');
+    function openImage($img) {
+        // Снимаем выделение со всех миниатюр
+        $images.removeClass('active');
 
-    viewerImg.src = img.dataset.full;
-    viewerCaption.textContent = img.dataset.desc || '';
+        // Выделяем текущую
+        $img.addClass('active');
 
-    viewer.scrollIntoView({ behavior: 'smooth' });
-}
+        // Задаём картинку и подпись
+        $viewerImg.attr('src', $img.data('full'));
+        $viewerCaption.text($img.data('desc') || '');
 
-images.forEach((img) => {
-    img.addEventListener('click', () => openImage(img));
+        // Плавный скролл к просмотровому блоку
+        $('html, body').animate({
+            scrollTop: $viewer.offset().top
+        }, 500);
+    }
+
+    // Обработчик клика по миниатюрам
+    $images.on('click', function () {
+        openImage($(this));
+    });
+
+    // Открываем первую картинку при загрузке
+    if ($images.length > 0) {
+        openImage($images.first());
+    }
 });
-
-if (images.length > 0) {
-    openImage(images[0]);
-}
