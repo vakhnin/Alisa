@@ -16,6 +16,12 @@ h1 {
     max-width: 1200px;
     margin: auto;
 }
+.gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
 .gallery img {
     width: 100%;
     aspect-ratio: 16/9;
@@ -26,6 +32,11 @@ h1 {
 }
 .gallery img:hover {
     transform: scale(1.03);
+}
+.thumb-caption {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #bbb;
 }
 .overlay {
     position: fixed;
