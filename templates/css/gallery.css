@@ -1,31 +1,35 @@
 body {
     font-family: sans-serif;
     margin: 0;
-    background: #111;
-    color: #fff;
+    background: #f8f8f8;
+    color: #222;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
 }
 
 .container {
     max-width: 1200px;
-    margin: 0 auto;     /* центрируем весь контент */
+    margin: 0 auto;
     padding: 0 20px;
-    text-align: center; /* центровка заголовков и прочего текста */
-}
-
-h1 {
-    margin: 20px 0;
+    display: flex;
+    gap: 20px;
 }
 
 .gallery {
     display: flex;
+    flex-direction: column;
     gap: 12px;
-    justify-content: center; /* центрируем миниатюры */
-    overflow: hidden;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+    padding-right: 5px;
+    flex: 0 0 140px; /* фиксируем ширину колонки миниатюр */
 }
 
 .gallery-item {
-    flex: 0 0 auto;
-    width: 120px;
+    width: 100%;
 }
 
 .gallery img {
@@ -34,7 +38,7 @@ h1 {
     object-fit: cover;
     border-radius: 6px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .gallery img:hover {
@@ -43,27 +47,31 @@ h1 {
 
 .gallery img.active {
     transform: scale(1.08);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    border: 2px solid #0078d4;
 }
 
 #viewer {
-    margin-top: 30px;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* центрируем большое изображение */
-    justify-content: center;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
 #viewer img {
-    width: 45%;
-    height: auto;
+    max-width: 100%;
+    max-height: 80vh;
     border-radius: 8px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.8);
+    box-shadow: 0 0 25px rgba(0,0,0,0.1);
 }
 
 #viewer .caption {
     margin-top: 10px;
-    color: #ccc;
+    color: #555;
     font-size: 1rem;
     text-align: center;
 }
