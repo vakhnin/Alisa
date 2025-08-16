@@ -6,6 +6,17 @@ $(document).ready(function () {
     const $viewerCaption = $('#viewer .caption');
     const maxVisible = 7;
 
+    // Функция для добавления описания к миниатюрам
+    function addCaptions() {
+        $gallery.find('.gallery-item').each(function () {
+            const $img = $(this).find('img');
+            const desc = $img.data('desc') || 'Описание отсутствует'; // Берём описание из data-desc
+            if (!$(this).find('.thumb-caption').length) {
+                $(this).append(`<div class="thumb-caption">${desc}</div>`); // Добавляем описание
+            }
+        });
+    }
+
     function getVisibleSet(centerIndex) {
         const len = allItems.length;
         const half = Math.floor(maxVisible / 2);
@@ -19,6 +30,7 @@ $(document).ready(function () {
 
     function renderGallery(visibleItems) {
         $gallery.empty().append(visibleItems);
+        addCaptions(); // Добавляем описания после рендера
     }
 
     function openImage($img) {
