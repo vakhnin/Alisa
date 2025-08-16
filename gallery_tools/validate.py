@@ -1,66 +1,55 @@
-import json
 import os
-import re
-
-INPUT_JSON = "input_images/data.json"
-
-# Регулярка для формата даты YYYY-MM-DD
-DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+import json
 
 
-def validate_gallery(large_dir):
-    with open(INPUT_JSON, "r", encoding="utf-8") as f:
-        meta_data = json.load(f)
+def check_images_and_data(input_dir, large_dir, data_json_path):
+    """
+    Проверяет:
+      1. Все ли файлы из data.json существуют в large_dir.
+      2. Все ли файлы из large_dir имеют запись в data.json.
+      3. Что у каждой записи есть date и description (description может быть пустым).
+    Возвращает список ошибок (пустой если всё ок).
+    """
+    errors = []
 
-    ids_in_meta = [item["id"] for item in meta_data]
-    files_in_folder = [
-        os.path.splitext(f)[0].replace("-large", "")
-        for f in os.listdir(large_dir)
-        if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp"))
-    ]
+    # Загружаем data.json
+    if not os.path.exists(data_json_path):
+        errors.append(f"Файл {data_json_path} не найден")
+        return errors
 
-    ids_in_meta_set = set(ids_in_meta)
-    files_in_folder_set = set(files_in_folder)
+    try:
+        with open(data_json_path, "r", encoding="utf-8") as f:
+            data_entries = json.load(f)
+    except Exception as e:
+        errors.append(f"Ошибка чтения {data_json_path}: {e}")
+        return errors
 
-    errors = False
+    # Составляем множества id
+    ids_in_json = set(entry["id"] for entry in data_entries if "id" in entry)
 
-    # Файлы без описания
-    missing_in_json = files_in_folder_set - ids_in_meta_set
-    if missing_in_json:
-        print(f"❌ В JSON нет описания для: {', '.join(sorted(missing_in_json))}")
-        errors = True
+    ids_in_files = set()
+    for file in os.listdir(large_dir):
+        if file.lower().endswith((".jpg", ".jpeg", ".png")):
+            ids_in_files.add(os.path.splitext(file)[0].split("-")[0])
 
-    # Описания без файлов
-    missing_files = ids_in_meta_set - files_in_folder_set
-    if missing_files:
-        print(f"❌ В папке нет файлов для: {', '.join(sorted(missing_files))}")
-        errors = True
+    # Проверка: id в JSON, но нет файла
+    for id_ in ids_in_json:
+        if id_ not in ids_in_files:
+            errors.append(f"В JSON есть запись {id_}, но файла нет в {large_dir}")
 
-    # Дубликаты id
-    duplicates = {x for x in ids_in_meta if ids_in_meta.count(x) > 1}
-    if duplicates:
-        print(f"❌ Дубликаты id в JSON: {', '.join(sorted(duplicates))}")
-        errors = True
+    # Проверка: файл есть, но нет записи в JSON
+    for id_ in ids_in_files:
+        if id_ not in ids_in_json:
+            errors.append(f"Файл {id_} есть в {large_dir}, но нет записи в JSON")
 
-    # Проверка наличия date и description
-    for item in meta_data:
-        if not item.get("date"):
-            print(f"❌ У записи с id={item['id']} отсутствует или пустой 'date'")
-            errors = True
-        elif not DATE_PATTERN.match(item["date"]):
-            print(f"❌ У записи с id={item['id']} неверный формат даты (ожидается YYYY-MM-DD): {item['date']}")
-            errors = True
+    # Проверка: обязательные поля
+    for entry in data_entries:
+        if "id" not in entry:
+            errors.append("Запись без поля 'id'")
+            continue
+        if "date" not in entry:
+            errors.append(f"Нет поля 'date' у {entry['id']}")
+        if "description" not in entry:
+            errors.append(f"Нет поля 'description' у {entry['id']}")
 
-        if "description" not in item:
-            print(f"❌ У записи с id={item['id']} отсутствует поле 'description'")
-            errors = True
-
-    if not errors:
-        print("✅ Проверка прошла успешно — все файлы и описания совпадают, поля заполнены корректно.")
-
-    return not errors
-
-
-if __name__ == "__main__":
-    # Пример: проверка папки site/images_large
-    validate_gallery("site/images_large")
+    return errors
