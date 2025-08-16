@@ -19,5 +19,5 @@ THUMB_SIZE = (200, 150)
 
 # Файлы
 OUTPUT_JSON = os.path.join(OUTPUT_SITE_DIR, "data.json")
-TEMPLATE_FILE = os.path.join(TEMPLATES_DIR, "index.html")
+TEMPLATE_FILE = os.path.join(TEMPLATES_DIR, "html", "main_template.html")
 OUTPUT_HTML = os.path.join(OUTPUT_SITE_DIR, "index.html")
