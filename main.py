@@ -1,13 +1,14 @@
 import os
 import shutil
+import sys
 
-from gallery_tools import convert, data, site
+from gallery_tools import convert, data, site, validate
 from gallery_tools.config import (
     INPUT_DIR, OUTPUT_SITE_DIR,
     OUTPUT_LARGE_DIR, OUTPUT_THUMB_DIR,
-    LARGE_SIZE, THUMB_SIZE, OUTPUT_JSON, TEMPLATE_FILE, OUTPUT_HTML
+    LARGE_SIZE, THUMB_SIZE, OUTPUT_JSON,
+    TEMPLATE_FILE, OUTPUT_HTML
 )
-from gallery_tools.validate import validate_gallery
 
 
 def prepare_site_folder():
@@ -24,19 +25,25 @@ if __name__ == "__main__":
 
     # 2. Конвертация изображений
     convert.process_folder(
-        INPUT_DIR, OUTPUT_LARGE_DIR, OUTPUT_THUMB_DIR,
-        large_max_size=LARGE_SIZE, thumb_size=THUMB_SIZE
+        INPUT_DIR,
+        OUTPUT_LARGE_DIR,
+        OUTPUT_THUMB_DIR,
+        large_max_size=LARGE_SIZE,
+        thumb_size=THUMB_SIZE
     )
 
-    # 3. Проверка соответствия файлов и JSON
-    if not validate_gallery(OUTPUT_LARGE_DIR):
-        print("❌ Ошибки в данных. Исправьте их перед генерацией сайта.")
-        exit(1)
+    # 2.1 Проверка данных и изображений
+    errors = validate.check_images_and_data(INPUT_DIR, OUTPUT_LARGE_DIR, os.path.join(INPUT_DIR, "data.json"))
+    if errors:
+        print("❌ Ошибки при проверке:")
+        for err in errors:
+            print("   -", err)
+        sys.exit(1)  # прерываем выполнение, сайт не собираем
 
-    # 4. Генерация JSON
+    # 3. Генерация JSON
     data.generate_data_json(OUTPUT_LARGE_DIR, OUTPUT_THUMB_DIR, OUTPUT_JSON)
 
-    # 5. Генерация HTML
+    # 4. Генерация HTML
     site.build_site(OUTPUT_JSON, TEMPLATE_FILE, OUTPUT_HTML)
 
     print("✅ Сайт готов в папке:", OUTPUT_SITE_DIR)

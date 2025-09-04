@@ -1,0 +1,58 @@
+[
+  {
+    "id": "A1",
+    "src": "images_large/A1-large.jpg",
+    "msrc": "images_thumb/A1-thumb.jpg",
+    "date": "2025-08-08",
+    "description": "Алиса. Знакомство"
+  },
+  {
+    "id": "A2",
+    "src": "images_large/A2-large.jpg",
+    "msrc": "images_thumb/A2-thumb.jpg",
+    "date": "2025-08-08",
+    "description": "Алисе 40 лет"
+  },
+  {
+    "id": "A3",
+    "src": "images_large/A3-large.jpg",
+    "msrc": "images_thumb/A3-thumb.jpg",
+    "date": "2025-08-08",
+    "description": "Алисе 16 лет"
+  },
+  {
+    "id": "A4",
+    "src": "images_large/A4-large.jpg",
+    "msrc": "images_thumb/A4-thumb.jpg",
+    "date": "2025-08-09",
+    "description": "Алисе 15 лет"
+  },
+  {
+    "id": "A5",
+    "src": "images_large/A5-large.jpg",
+    "msrc": "images_thumb/A5-thumb.jpg",
+    "date": "2025-08-11",
+    "description": "Алиса, 16 лет"
+  },
+  {
+    "id": "A6",
+    "src": "images_large/A6-large.jpg",
+    "msrc": "images_thumb/A6-thumb.jpg",
+    "date": "2025-08-13",
+    "description": "Я готов рисовать песок, по которому ты ходила"
+  },
+  {
+    "id": "A7",
+    "src": "images_large/A7-large.jpg",
+    "msrc": "images_thumb/A7-thumb.jpg",
+    "date": "2025-08-13",
+    "description": "Дубль 1"
+  },
+  {
+    "id": "A8",
+    "src": "images_large/A8-large.jpg",
+    "msrc": "images_thumb/A8-thumb.jpg",
+    "date": "2025-08-13",
+    "description": "Дубль 2"
+  }
+]
